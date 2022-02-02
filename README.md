@@ -1,0 +1,3 @@
+Required dependencies:
+
+discord.py
