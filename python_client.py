@@ -1,6 +1,7 @@
 import discord
 import os.path
-import json
+import commands.command_event
+import commands.hello_world
 
 import settings
 
@@ -16,6 +17,7 @@ settings_map = {
 class PythonClient(discord.Client):
     def __init__(self):
         discord.Client.__init__(self)
+        command_map["hello"] = commands.hello_world.HelloWorld()
 
     async def on_ready(self):
         print(f"Logged in as {self.user}")
@@ -33,4 +35,11 @@ class PythonClient(discord.Client):
                 settings_file.close()
 
     async def on_message(self, message):
-        print(f"Recieved message in {message.channel.name}: {message.content}")
+        if message.content[0] == '!':
+            words = message.content[1:].split()
+            command_name = words[0]
+            print(f"Command recieved in {message.channel.name}: {command_name}")
+            command_event = commands.command_event.CommandEvent(message)
+            command = command_map[command_name]
+            await command.run_command(command_event)
+
