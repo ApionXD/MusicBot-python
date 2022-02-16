@@ -5,22 +5,20 @@ import commands.hello_world
 
 import settings
 
-command_map = {
-
-}
-settings_map = {
-
-}
-
-
 # This is a class representing the bot, it inherits from the discord.Client class
 class PythonClient(discord.Client):
     def __init__(self):
+        self.command_map = dict()
+        self.settings_map = dict()
         discord.Client.__init__(self)
-        command_map["hello"] = commands.hello_world.HelloWorld()
+        # Register commands here
+        self.command_map["hello"] = commands.hello_world.HelloWorld()
 
     async def on_ready(self):
         print(f"Logged in as {self.user}")
+        # Loop through all guilds and generate settings
+        # Eventually we want to deserialize/reserialize settings objects to/from JSON
+        # We also want to add stuff like roles/perms to settings objects
         for g in self.guilds:
             settings_file_name = f"settings/{g.id}.json"
             if os.path.exists(settings_file_name):
@@ -35,11 +33,19 @@ class PythonClient(discord.Client):
                 settings_file.close()
 
     async def on_message(self, message):
+        # Checks to see if the message is a bot command
+        # This will need to check the guild settings for the prefix, right now it only looks to see if the
+        # message starts with '!"
+        # Also need to add exceptions for when a message references a command that isn't registered
         if message.content[0] == '!':
             words = message.content[1:].split()
+            # The first word of the message, which should be the name of the command
             command_name = words[0]
-            print(f"Command recieved in {message.channel.name}: {command_name}")
+            # The CommandEvent object, which stores stuff relevant to the CURRENT call of the command
+            # Should probably add words to this object
             command_event = commands.command_event.CommandEvent(message)
-            command = command_map[command_name]
+            # Gets the previously registered command by name
+            command = self.command_map[command_name]
+            # Runs the command
             await command.run_command(command_event)
 
