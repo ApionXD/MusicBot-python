@@ -1,9 +1,9 @@
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     Libraries needed:
-        - discord
-        - youtube-dl
-        - pynacl (If it does not download automatically with discord)
-        - ffmpeg (Needs to be installed on machine, not imported)
+        - discord -> pip install discord
+        - youtube-dl -> pip install youtube_dl
+        - pynacl (If it does not download automatically with discord) -> pip install pynacl
+        - ffmpeg (Needs to be installed on machine, not imported) -> brew install ffmpeg
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 import os
 import discord
