@@ -1,19 +1,16 @@
 import discord
 import os.path
 import settings
-import commands.play
-import commands.hello_world
-import commands.command_event
+import command_map
+from commands import command_event
 
 # This is a class representing the bot, it inherits from the discord.Client class
 class PythonClient(discord.Client):
     def __init__(self):
-        self.command_map = dict()
-        self.settings_map = dict()
         discord.Client.__init__(self)
-        # Register commands here
-        self.command_map["hello"] = commands.hello_world.HelloWorld()
-        self.command_map["play"] = commands.play.Play()
+        self.command_map = command_map.command_map
+        self.settings_map = dict()
+
 
     async def on_ready(self):
         print(f"Logged in as {self.user}")
@@ -44,9 +41,9 @@ class PythonClient(discord.Client):
             command_name = words[0]
             # The CommandEvent object, which stores stuff relevant to the CURRENT call of the command
             # Should probably add words to this object
-            command_event = commands.command_event.CommandEvent(message_event)
+            new_command_event = command_event.CommandEvent(message_event)
             # Gets the previously registered command by name
             command = self.command_map[command_name]
             # Runs the command
-            await command.run_command(command_event)
+            await command.run_command(new_command_event)
 
