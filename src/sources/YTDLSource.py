@@ -33,7 +33,7 @@ def get_top_item_link(query):
 # query the YouTube API for the first video matching our search, then we use YTDL to get the actual link to the content
 # of the video. We can feed that link into ffmpeg to transcode whatever format YT gives us into one that discord can
 # process.
-class YTSource(discord.FFmpegPCMAudio):
+class YTSource(discord.FFmpegOpusAudio):
     def __init__(self, query):
         self.ytdl = youtube_dl.YoutubeDL(YTDL_OPT)
         self.url = get_top_item_link(query)
