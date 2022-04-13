@@ -1,3 +1,5 @@
+import json
+
 import discord
 import os.path
 import settings
@@ -27,7 +29,7 @@ class PythonClient(discord.Client):
                 if not os.path.exists("settings/"):
                     os.mkdir("settings")
                 settings_file = open(settings_file_name, 'w')
-                settings_file.write(str(guild_settings))
+                settings_file.write(guild_settings.to_json())
                 settings_file.close()
 
     async def on_message(self, message_event):

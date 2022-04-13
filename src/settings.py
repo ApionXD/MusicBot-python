@@ -2,10 +2,10 @@ import json
 
 
 class Settings:
-    _prefix = "!"
+    def __init__(self):
+        self.prefix = '!'
 
-    def __str__(self):
-        var_dict = {
-            "prefix": self._prefix
-        }
-        return json.dumps(var_dict)
+    def to_json(self):
+        return json.dumps({
+            "prefix": self.prefix
+        }, indent=4)
