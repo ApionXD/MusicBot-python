@@ -1,9 +1,9 @@
 import discord
 import os.path
-import commands.command_event
-import commands.hello_world
-
 import settings
+import commands.play
+import commands.hello_world
+import commands.command_event
 
 # This is a class representing the bot, it inherits from the discord.Client class
 class PythonClient(discord.Client):
@@ -13,6 +13,7 @@ class PythonClient(discord.Client):
         discord.Client.__init__(self)
         # Register commands here
         self.command_map["hello"] = commands.hello_world.HelloWorld()
+        self.command_map["play"] = commands.play.Play()
 
     async def on_ready(self):
         print(f"Logged in as {self.user}")
@@ -32,18 +33,18 @@ class PythonClient(discord.Client):
                 settings_file.write(str(guild_settings))
                 settings_file.close()
 
-    async def on_message(self, message):
+    async def on_message(self, message_event):
         # Checks to see if the message is a bot command
         # This will need to check the guild settings for the prefix, right now it only looks to see if the
         # message starts with '!"
         # Also need to add exceptions for when a message references a command that isn't registered
-        if message.content[0] == '!':
-            words = message.content[1:].split()
+        if message_event.content[0] == '!':
+            words = message_event.content[1:].split()
             # The first word of the message, which should be the name of the command
             command_name = words[0]
             # The CommandEvent object, which stores stuff relevant to the CURRENT call of the command
             # Should probably add words to this object
-            command_event = commands.command_event.CommandEvent(message)
+            command_event = commands.command_event.CommandEvent(message_event)
             # Gets the previously registered command by name
             command = self.command_map[command_name]
             # Runs the command

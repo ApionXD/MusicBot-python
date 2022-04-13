@@ -7,4 +7,4 @@ class HelloWorld(command.Command):
         None
 
     async def run_command(self, command_event):
-        await command_event.message.channel.send("Hello world!")
+        await command_event.message_event.channel.send("Hello world!")
