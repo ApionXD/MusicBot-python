@@ -1,8 +1,7 @@
-import commands.command
-from commands import command
+from commands.command import Command
 
 
-class HelloWorld(command.Command):
+class HelloWorld(Command):
     def __init__(self):
         None
 
