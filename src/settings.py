@@ -15,7 +15,7 @@ def load_settings(guild_list):
             settings_map[g.id] = guild_settings
         else:
             print(f"Settings file for {g.name} not found! Creating one now")
-            guild_settings = Settings(g)
+            guild_settings = Settings.gen_default_settings(g)
             if not os.path.exists("settings/"):
                 os.mkdir("settings")
             settings_file = open(settings_file_name, 'w')
@@ -33,10 +33,16 @@ def save_settings(guild_id, guild_name):
 
 
 class Settings:
-    def __init__(self, guild):
+    def __init__(self):
         self.prefix = '!'
-        self.voice_channel_id = guild.voice_channels[0].id
-        self.command_channel_id = guild.text_channels[0].id
+
+    @staticmethod
+    def gen_default_settings(guild):
+        result = Settings()
+        result.prefix = '!'
+        result.voice_channel_id = guild.voice_channels[0].id
+        result.command_channel_id = guild.text_channels[0].id
+        return result
 
     def to_json(self):
         return json.dumps({

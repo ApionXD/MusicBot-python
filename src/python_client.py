@@ -20,11 +20,13 @@ class PythonClient(discord.Client):
 
 
     async def on_message(self, message_event):
-        prefix = self.settings_map[message_event.guild.id].prefix
+        settings = self.settings_map[message_event.guild.id]
+        prefix = settings.prefix
+        command_channel_id = settings.command_channel_id
         # Checks to see if the message is a bot command
         # This will need to check the guild settings for the prefix
         # Also need to add exceptions for when a message references a command that isn't registered
-        if message_event.content[0] == prefix:
+        if message_event.channel.id == command_channel_id and message_event.content[0] == prefix:
             words = message_event.content[1:].split()
             # The first word of the message, which should be the name of the command
             command_name = words[0]
