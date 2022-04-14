@@ -50,7 +50,3 @@ class YTSource(discord.FFmpegOpusAudio):
         if self.data['acodec'] == 'opus':
             self.opus = True
         return filename
-
-
-
-
