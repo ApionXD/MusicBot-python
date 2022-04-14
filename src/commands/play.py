@@ -9,7 +9,7 @@ song_list = {} #May need to move somewhere more central
 class Play(Command):
     async def run_command(self, command_event):
         server = command_event.message_event.guild
-        voice_channel = [x for x in server.voice_channels if x.id == command_event.guild_settings.voice_channel_id][0]
+        voice_channel = discord.utils.find(lambda m: m.id == command_event.guild_settings.voice_channel_id, server.voice_channels)
         channel = server.id
         if (channel in song_list): #If play is called automatically goes to top(easier for testing not final)
             song_list[channel].insert(0, command_event.words[1:])
