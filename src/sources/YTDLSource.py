@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 import discord
 import requests
@@ -6,12 +7,7 @@ import youtube_dl
 
 API_KEY = 'AIzaSyCTazKIZr6p04G09B6JhvobG5y_YDMHaq0'
 YTDL_OPT = {
-    'format': 'bestaudio/best',
-    'postprocessors': [{
-        'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'mp3',
-        'preferredquality': '192',
-    }],
+    'format': 'bestaudio/best'
 }
 
 
@@ -35,10 +31,15 @@ def get_top_item_link(query):
 # process.
 class YTSource(discord.FFmpegOpusAudio):
     def __init__(self, query):
+        self.opus = False
         self.ytdl = youtube_dl.YoutubeDL(YTDL_OPT)
         self.url = get_top_item_link(query)
         stream_link = self.get_stream()
-        super().__init__(stream_link)
+        if self.opus:
+            print('Audio already opus encoded, not transcoding')
+            super().__init__(stream_link, codec='copy')
+        else:
+            super().__init__(stream_link)
 
 
     # This method uses the normal link to a YT video to fetch the data about that video, mainly
@@ -46,8 +47,6 @@ class YTSource(discord.FFmpegOpusAudio):
     def get_stream(self):
         self.data = self.ytdl.extract_info(self.url, download=False)
         filename = self.data['url']
+        if self.data['acodec'] == 'opus':
+            self.opus = True
         return filename
-
-
-
-
