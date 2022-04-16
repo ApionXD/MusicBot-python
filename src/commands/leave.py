@@ -9,7 +9,11 @@ class Leave(Command):
     async def run_command(self, command_event):
         server = command_event.message_event.guild
         voice_channel = server.voice_client
-        connection = await voice_channel.disconnect()
+        if (not server.voice_client==None and voice_channel.is_connected()):
+            await voice_channel.disconnect()
+        else:
+            await command_event.message_event.channel.send(
+                ("You aren't connected to a server"))
       #  if (len(video_list)>0):
       #      video_list.pop(0)
 
