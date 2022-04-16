@@ -33,11 +33,11 @@ class PythonClient(discord.Client):
             # The CommandEvent object, which stores stuff relevant to the CURRENT call of the command
             # Should probably add words to this object
             new_command_event = command_event.CommandEvent(message_event, self.settings_map[message_event.guild.id])
-            # Gets the previously registered command by name
-            command = self.command_map[command_name]
-            if not command:
+            if not command_name in self.command_map:
                 await message_event.channel.send_message("Command not found!")
                 return
+            # Gets the previously registered command by name
+            command = self.command_map[command_name]
             # Runs the command
             if settings.perm_map.get_highest_permission_level(message_event.author) >= command.perm_level:
                 await command.run_command(new_command_event)
