@@ -33,7 +33,7 @@ class YTSource(discord.FFmpegOpusAudio):
     def __init__(self, query):
         self.opus = False
         self.ytdl = youtube_dl.YoutubeDL(YTDL_OPT)
-        self.url = get_top_item_link(query)
+        self.url = self.ytdl.extract_info(f"ytsearch:{query}", download=False)['entries'][0]['webpage_url']
         stream_link = self.get_stream()
         if self.opus:
             print('Audio already opus encoded, not transcoding')
