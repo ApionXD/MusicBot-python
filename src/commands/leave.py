@@ -6,6 +6,7 @@ from commands.command import Command
 
 
 class Leave(Command):
+    perm_level = 1000
     async def run_command(self, command_event):
         server = command_event.message_event.guild
         voice_channel = server.voice_client

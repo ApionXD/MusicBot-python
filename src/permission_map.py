@@ -9,8 +9,8 @@ class PermissionMap:
             result = self.user_map[str(member.id)]
         member_roles = member.roles
         for x in member_roles:
-            if x.id in self.role_map:
-                perm_level = self.role_map[x.id]
+            if str(x.id) in self.role_map:
+                perm_level = self.role_map[str(x.id)]
                 if perm_level > result:
                     result = perm_level
         return result
