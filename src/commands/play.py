@@ -48,7 +48,6 @@ def play_next_song(server, command_channel_id, voice_channel_id):
 
 
 class Play(Command):
-    perm_level = 1000
     async def run_command(self, command_event):
         server = command_event.message_event.guild
         guild_id = server.id
