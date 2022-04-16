@@ -39,5 +39,11 @@ class PythonClient(discord.Client):
                 await message_event.channel.send_message("Command not found!")
                 return
             # Runs the command
-            await command.run_command(new_command_event)
+            if settings.perm_map.get_highest_permission_level(message_event.author) >= command.perm_level:
+                await command.run_command(new_command_event)
+            else:
+                await message_event.channel.send("You don't have permission to run this command! "
+                                                 "You have permission level "
+                                                 f"{settings.perm_map.get_highest_permission_level(message_event.author)}"
+                                                 f" but the command requires {command.perm_level}")
 
