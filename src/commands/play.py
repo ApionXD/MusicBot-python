@@ -7,6 +7,7 @@ song_list = {} #May need to move somewhere more central
 cur_source = {}
 
 class Play(Command):
+    perm_level = 1000
     async def run_command(self, command_event):
         server = command_event.message_event.guild
         voice_channel = discord.utils.find(lambda m: m.id == command_event.guild_settings.voice_channel_id, server.voice_channels)
