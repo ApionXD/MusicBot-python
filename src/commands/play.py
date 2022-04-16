@@ -33,7 +33,7 @@ class Play(Command):
             source = song_map[id][0]
             song_map[id].pop(0)
             text_channel = discord.utils.find(lambda m: m.id == channel_id, server.text_channels)
-            embed = discord.Embed(title="Now Playing", url=source.data['uploader_url'])
+            embed = discord.Embed(title="Now Playing", url=source.data['webpage_url'])
             embed.set_image(url=source.data['thumbnails'][0]['url'])
             embed.set_author(name="MusicBot")
             embed.add_field(name="Artist", value=source.data['artist'], inline=True)
