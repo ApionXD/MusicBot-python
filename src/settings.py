@@ -1,5 +1,6 @@
 import json
 import os
+import permission_map
 
 settings_map = dict()
 
@@ -42,13 +43,16 @@ class Settings:
         result.prefix = '!'
         result.voice_channel_id = guild.voice_channels[0].id
         result.command_channel_id = guild.text_channels[0].id
+        result.perm_map = permission_map.PermissionMap()
+        result.perm_map.gen_default_perms(guild)
         return result
 
     def to_json(self):
         return json.dumps({
             "prefix": self.prefix,
             "voice_channel_id": self.voice_channel_id,
-            "command_channel_id": self.command_channel_id
+            "command_channel_id": self.command_channel_id,
+            "permission_mappings": {"roles": self.perm_map.role_map, "users": self.perm_map.user_map}
         }, indent=4)
 
     @staticmethod
@@ -58,4 +62,5 @@ class Settings:
         result.prefix = setting_dict['prefix']
         result.voice_channel_id = setting_dict['voice_channel_id']
         result.command_channel_id = setting_dict['command_channel_id']
+        result.perm_map = permission_map.PermissionMap.from_dict(setting_dict["permission_mappings"])
         return result
