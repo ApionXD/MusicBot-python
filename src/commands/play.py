@@ -13,7 +13,7 @@ song_map = {} #May need to move somewhere more central
 
 # Plays next song
 # This entire method is slightly sketchy. The main issue is that the coroutine that the play method accepts can't be async
-# This means that we have to use the main bot event loop to run ANY ASYNC METHODS. Thats what the asyncio methods do.
+# This means that we have to use the main bot event loop to run ANY ASYNC METHODS. That's what the asyncio methods do.
 # I hate this.
 def play_next_song(server, command_channel_id, voice_channel_id):
     id = server.id
@@ -56,5 +56,7 @@ class Play(Command):
             song_map[guild_id] = [(YTDLSource.YTSource(" ".join(command_event.words[1:])))] + song_map[guild_id][1:]
         else:
             song_map[guild_id] = [YTDLSource.YTSource(" ".join(command_event.words[1:]))]
-            if server.voice_client is None:
-                play_next_song(server, command_event.guild_settings.command_channel_id, command_event.guild_settings.voice_channel_id)
+        if server.voice_client is None:
+            play_next_song(server, command_event.guild_settings.command_channel_id,
+                           command_event.guild_settings.voice_channel_id)
+
