@@ -7,8 +7,8 @@ import bot_container
 
 from commands.command import Command
 from sources import YTDLSource
-
-song_map = {} #May need to move somewhere more central
+# May need to move somewhere more central
+song_map = {}
 
 
 # Plays next song
@@ -33,13 +33,24 @@ def play_next_song(server, command_channel_id, voice_channel_id):
         text_channel = discord.utils.find(lambda m: m.id == command_channel_id, server.text_channels)
         embed = discord.Embed(title="Now Playing", url=source.data['uploader_url'])
         embed.set_image(url=source.data['thumbnails'][0]['url'])
-        embed.set_author(name="MusicBot")
+        embed.set_author(name="Beedle")
+        embed.set_footer(text="A reaction driven music bot!")
         if 'artist' in source.data:
             embed.add_field(name="Artist", value=source.data['artist'], inline=True)
         if 'track' in source.data:
             embed.add_field(name="Track", value=source.data['track'], inline=True)
+        else:
+            embed.add_field(name="Title", value=source.data['title'])
         if 'duration' in source.data:
-            embed.add_field(name="Duration", value=f"{int(source.data['duration'] / 60)}:{source.data['duration'] % 60}",
+            duration_str = f"{int(source.data['duration'] / 60)}:"
+            if duration_str == "0:":
+                duration_str = ':'
+            seconds = source.data['duration'] % 60
+            if seconds < 10:
+                duration_str += f"0{seconds}"
+            else:
+                duration_str += f"{seconds}"
+            embed.add_field(name="Duration", value=duration_str,
                             inline=True)
         asyncio.run_coroutine_threadsafe(text_channel.send(embed=embed), bot_container.bot_instance.loop)
         server.voice_client.play(source, after=lambda x=None: play_next_song(server, command_channel_id, voice_channel_id))

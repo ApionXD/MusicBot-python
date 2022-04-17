@@ -24,8 +24,15 @@ class Queue(Command):
         if 'track' in source.data:
             embed.add_field(name="Track", value=source.data['track'], inline=True)
         if 'duration' in source.data:
-            embed.add_field(name="Duration",
-                            value=f"{int(source.data['duration'] / 60)}:{source.data['duration'] % 60}",
+            duration_str = f"{int(source.data['duration'] / 60)}:"
+            if duration_str == "0:":
+                duration_str = ':'
+            seconds = source.data['duration'] % 60
+            if seconds < 10:
+                duration_str += f"0{seconds}"
+            else:
+                duration_str += f"{seconds}"
+            embed.add_field(name="Duration", value=duration_str,
                             inline=True)
         await command_event.message_event.channel.send(embed=embed)
 
