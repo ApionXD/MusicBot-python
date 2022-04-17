@@ -19,6 +19,13 @@ def play_next_song(server, command_channel_id, voice_channel_id):
     id = server.id
     # If there is a queue
     if len(song_map[id]) > 0:
+        if server.voice_client is None:
+            voice_channel = discord.utils.find(lambda m: m.id == voice_channel_id, server.voice_channels)
+            future = asyncio.run_coroutine_threadsafe(voice_channel.connect(), bot_container.bot_instance.loop)
+            # Uhhhhhh slightly sketchy. For some reason i couldn't get the current thread to block until the above future finished
+            # But I CAN add a callback? Weird and annoying, but should work.
+            future.add_done_callback(lambda y: play_next_song(server, command_channel_id, voice_channel_id))
+            return
         # Sets source to be the first song in queue
         source = song_map[id][0]
         song_map[id].pop(0)
@@ -34,16 +41,11 @@ def play_next_song(server, command_channel_id, voice_channel_id):
             embed.add_field(name="Duration", value=f"{int(source.data['duration'] / 60)}:{source.data['duration'] % 60}",
                             inline=True)
         asyncio.run_coroutine_threadsafe(text_channel.send(embed=embed), bot_container.bot_instance.loop)
+        server.voice_client.play(source,
+                                 after=lambda x=None: play_next_song(server, command_channel_id, voice_channel_id))
     else:
         asyncio.run_coroutine_threadsafe(server.voice_client.disconnect(), bot_container.bot_instance.loop)
-    if server.voice_client is None:
-        voice_channel = discord.utils.find(lambda m: m.id == voice_channel_id, server.voice_channels)
-        future = asyncio.run_coroutine_threadsafe(voice_channel.connect(), bot_container.bot_instance.loop)
-        # Uhhhhhh slightly sketchy. For some reason i couldn't get the current thread to block until the above future finished
-        # But I CAN add a callback? Weird and annoying, but should work.
-        future.add_done_callback(lambda y: server.voice_client.play(source, after=lambda x=None: play_next_song(server, command_channel_id, voice_channel_id)))
-    else:
-        server.voice_client.play(source, after=lambda x=None: play_next_song(server, command_channel_id))
+
 
 class Play(Command):
     perm_level = 1000
@@ -51,7 +53,8 @@ class Play(Command):
         server = command_event.message_event.guild
         guild_id = server.id
         if (guild_id in song_map):
-            song_map[guild_id].append(YTDLSource.YTSource(" ".join(command_event.words[1:])))
+            song_map[guild_id] = [(YTDLSource.YTSource(" ".join(command_event.words[1:])))] + song_map[guild_id][1:]
         else:
             song_map[guild_id] = [YTDLSource.YTSource(" ".join(command_event.words[1:]))]
-        play_next_song(server, command_event.guild_settings.command_channel_id, command_event.guild_settings.voice_channel_id)
+            if server.voice_client is None:
+                play_next_song(server, command_event.guild_settings.command_channel_id, command_event.guild_settings.voice_channel_id)

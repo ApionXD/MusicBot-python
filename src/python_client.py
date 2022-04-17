@@ -35,7 +35,7 @@ class PythonClient(discord.Client):
                 # Should probably add words to this object
                 new_command_event = command_event.CommandEvent(message_event, self.settings_map[message_event.guild.id])
                 if not command_name in self.command_map:
-                    await message_event.channel.send_message("Command not found!")
+                    await message_event.channel.send("Command not found!")
                     return
                 # Gets the previously registered command by name
                 command = self.command_map[command_name]
