@@ -1,6 +1,6 @@
 import queue
 
-from commands import hello_world, play, set_prefix, leave, queue, get_perm, skip
+from commands import hello_world, play, set_prefix, leave, queue, get_perm, skip, voteskip
 
 command_map = {
     "hello": hello_world.HelloWorld(),
@@ -9,5 +9,6 @@ command_map = {
     "leave": leave.Leave(),
     'queue': queue.Queue(),
     'getperms': get_perm.GetPerm(),
-    'skip': skip.Skip()
+    'skip': skip.Skip(),
+    'voteskip': voteskip.VoteSkip()
 }

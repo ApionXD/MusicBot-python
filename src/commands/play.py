@@ -9,7 +9,7 @@ from commands.command import Command
 from sources import YTDLSource
 # May need to move somewhere more central
 song_map = {}
-
+embed = None
 
 # Plays next song
 # This entire method is slightly sketchy. The main issue is that the coroutine that the play method accepts can't be async
@@ -31,6 +31,7 @@ def play_next_song(server, command_channel_id, voice_channel_id):
         source = song_map[id][0]
         song_map[id].pop(0)
         text_channel = discord.utils.find(lambda m: m.id == command_channel_id, server.text_channels)
+        global embed
         embed = discord.Embed(title="Now Playing", url=source.data['uploader_url'])
         embed.set_image(url=source.data['thumbnails'][0]['url'])
         embed.set_author(name="Beedle")

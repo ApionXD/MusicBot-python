@@ -6,6 +6,7 @@ import discord
 import bot_container
 import settings
 import commands.play
+import commands.skip
 from commands.command import Command
 
 messagess_check = list() #list to store messgaes to ensure one vote for
@@ -49,9 +50,15 @@ class VoteSkip(Command):
                 numListening += 1
 
             #print(potential, numNonSkip, numSkip, numListening, members)
-            if (numSkip*2>=numListening):# majority rules voting
-                None#skip.run_command(command_event)
             messagess_check.remove(msg.id)
+            if (numSkip*2>=numListening):# majority rules voting
+                await command_event.message_event.channel.send(
+                    ("Skip!"))
+                if command_event.message_event.guild.voice_client is not None: #Can maybe be combined with skip
+                    command_event.message_event.guild.voice_client.stop()
+            else:
+                await command_event.message_event.channel.send(
+                    ("Voting Has Ended. The song stays."))
 
         else:
             await command_event.message_event.channel.send(

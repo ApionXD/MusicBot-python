@@ -51,15 +51,15 @@ class PythonClient(discord.Client):
 
     #Used to ensure the user only picks one choice per vote period per song raw used on remove to not change intents
     async def on_reaction_add(self, reaction, user): #TODO make people not in voice unable to vote for these/No reactions except ones in perms
-        if reaction.message.id in commands.vote.messagess_check and not user.bot:
+        if reaction.message.id in commands.voteskip.messagess_check and not user.bot:
             userPerArea = str(user.id)+str(reaction.message.id)
-            if not userPerArea in commands.vote.vote_reactions:
-                commands.vote.vote_reactions[userPerArea] = reaction.emoji
+            if not userPerArea in commands.voteskip.vote_reactions:
+                commands.voteskip.vote_reactions[userPerArea] = reaction.emoji
             else:
                 await reaction.remove(user)
 
     async def on_raw_reaction_remove(self, payload):
-        print(payload.member, "delete")
+        #print(payload.member, "delete")
         user = str(payload.user_id)+str(payload.message_id)
-        if user in commands.vote.vote_reactions:
-                del commands.vote.vote_reactions[user]
+        if user in commands.voteskip.vote_reactions:
+                del commands.voteskip.vote_reactions[user]
