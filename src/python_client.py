@@ -4,6 +4,7 @@ import discord
 import os.path
 import settings
 import command_map
+import commands.voteskip
 from commands import command_event
 
 # This is a class representing the bot, it inherits from the discord.Client class
@@ -48,3 +49,17 @@ class PythonClient(discord.Client):
                                                      f"{settings.perm_map.get_highest_permission_level(message_event.author)}"
                                                      f" but the command requires {command.perm_level}")
 
+    #Used to ensure the user only picks one choice per vote period per song raw used on remove to not change intents
+    async def on_reaction_add(self, reaction, user): #TODO make people not in voice unable to vote for these/No reactions except ones in perms
+        if reaction.message.id in commands.vote.messagess_check and not user.bot:
+            userPerArea = str(user.id)+str(reaction.message.id)
+            if not userPerArea in commands.vote.vote_reactions:
+                commands.vote.vote_reactions[userPerArea] = reaction.emoji
+            else:
+                await reaction.remove(user)
+
+    async def on_raw_reaction_remove(self, payload):
+        print(payload.member, "delete")
+        user = str(payload.user_id)+str(payload.message_id)
+        if user in commands.vote.vote_reactions:
+                del commands.vote.vote_reactions[user]

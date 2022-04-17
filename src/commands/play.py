@@ -9,7 +9,7 @@ from commands.command import Command
 from sources import YTDLSource
 
 song_map = {} #May need to move somewhere more central
-
+embed = None #A way to print out current song being played
 
 # Plays next song
 # This entire method is slightly sketchy. The main issue is that the coroutine that the play method accepts can't be async
@@ -17,6 +17,7 @@ song_map = {} #May need to move somewhere more central
 # I hate this.
 def play_next_song(server, command_channel_id, voice_channel_id):
     id = server.id
+    global embed
     # If there is a queue
     if len(song_map[id]) > 0:
         if server.voice_client is None:
@@ -30,22 +31,25 @@ def play_next_song(server, command_channel_id, voice_channel_id):
         source = song_map[id][0]
         song_map[id].pop(0)
         text_channel = discord.utils.find(lambda m: m.id == command_channel_id, server.text_channels)
-        embed = discord.Embed(title="Now Playing", url=source.data['uploader_url'])
-        embed.set_image(url=source.data['thumbnails'][0]['url'])
-        embed.set_author(name="MusicBot")
-        if 'artist' in source.data:
-            embed.add_field(name="Artist", value=source.data['artist'], inline=True)
-        if 'track' in source.data:
-            embed.add_field(name="Track", value=source.data['track'], inline=True)
-        if 'duration' in source.data:
-            embed.add_field(name="Duration", value=f"{int(source.data['duration'] / 60)}:{source.data['duration'] % 60}",
-                            inline=True)
+        embed = embedVideo(discord.Embed(title="Now Playing", url=source.data['uploader_url']), source)
+
         asyncio.run_coroutine_threadsafe(text_channel.send(embed=embed), bot_container.bot_instance.loop)
         server.voice_client.play(source,
                                  after=lambda x=None: play_next_song(server, command_channel_id, voice_channel_id))
     else:
         asyncio.run_coroutine_threadsafe(server.voice_client.disconnect(), bot_container.bot_instance.loop)
 
+def embedVideo(embed, source):
+    if 'artist' in source.data:
+        embed.add_field(name="Artist", value=source.data['artist'], inline=True)
+    if 'track' in source.data:
+        embed.add_field(name="Track", value=source.data['track'], inline=True)
+    if 'duration' in source.data:
+        embed.add_field(name="Duration", value=f"{int(source.data['duration'] / 60)}:{source.data['duration'] % 60}",
+                        inline=True)
+    embed.set_image(url=source.data['thumbnails'][0]['url'])
+    embed.set_author(name="MusicBot")
+    return embed
 
 class Play(Command):
     async def run_command(self, command_event):

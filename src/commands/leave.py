@@ -2,7 +2,6 @@ import discord
 
 import settings
 from commands.command import Command
-#from commands.play import video_list
 
 
 class Leave(Command):
