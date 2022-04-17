@@ -1,5 +1,6 @@
 from commands.command import Command
 
+
 class HelloWorld(Command):
     perm_level = 0
 
