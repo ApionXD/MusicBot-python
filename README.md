@@ -6,7 +6,8 @@ Beedle is a Discord music bot!
 * Customizable permissions
 * Server-specific settings
 <br> 
-###Instructions:
+
+### Instructions:
   * Docker:\
 Download, then run ```docker build --tag [image_name] .```
   * Linux:\
@@ -30,7 +31,7 @@ Note: The brackets in the command signify a mandatory parameter. The brackets fo
 !skip - Skips the song currently playing [1000]\
 <br>
 Dependencies: \
-* Python 3\
-* ffmpeg\
+* Python 3
+* ffmpeg
 * libopus
 
