@@ -19,6 +19,7 @@ def play_next_song(server, command_channel_id, voice_channel_id):
     id = server.id
     # If there is a queue
     if len(song_map[id]) > 0:
+        # Joins voice channel and reruns this command
         if server.voice_client is None:
             voice_channel = discord.utils.find(lambda m: m.id == voice_channel_id, server.voice_channels)
             future = asyncio.run_coroutine_threadsafe(voice_channel.connect(), bot_container.bot_instance.loop)
@@ -41,8 +42,7 @@ def play_next_song(server, command_channel_id, voice_channel_id):
             embed.add_field(name="Duration", value=f"{int(source.data['duration'] / 60)}:{source.data['duration'] % 60}",
                             inline=True)
         asyncio.run_coroutine_threadsafe(text_channel.send(embed=embed), bot_container.bot_instance.loop)
-        server.voice_client.play(source,
-                                 after=lambda x=None: play_next_song(server, command_channel_id, voice_channel_id))
+        server.voice_client.play(source, after=lambda x=None: play_next_song(server, command_channel_id, voice_channel_id))
     else:
         asyncio.run_coroutine_threadsafe(server.voice_client.disconnect(), bot_container.bot_instance.loop)
 
