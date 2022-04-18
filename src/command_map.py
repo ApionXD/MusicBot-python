@@ -9,6 +9,6 @@ command_map = {
     "leave": leave.Leave(),
     'queue': queue.Queue(),
     'getperms': get_perm.GetPerm(),
-    'setperms': set_perm.SetPerm(),
+    'setperm': set_perm.SetPerm(),
     'help': help.Help()
 }
