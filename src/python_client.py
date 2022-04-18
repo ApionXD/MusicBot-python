@@ -7,6 +7,7 @@ import command_map
 import commands.voteskip
 from commands import command_event
 
+
 # This is a class representing the bot, it inherits from the discord.Client class
 class PythonClient(discord.Client):
     def __init__(self):
@@ -14,11 +15,9 @@ class PythonClient(discord.Client):
         self.command_map = command_map.command_map
         self.settings_map = settings.settings_map
 
-
     async def on_ready(self):
         print(f"Logged in as {self.user}")
         settings.load_settings(self.guilds)
-
 
     async def on_message(self, message_event):
         if not message_event.author.bot:
@@ -49,17 +48,23 @@ class PythonClient(discord.Client):
                                                      f"{settings.perm_map.get_highest_permission_level(message_event.author)}"
                                                      f" but the command requires {command.perm_level}")
 
-    #Used to ensure the user only picks one choice per vote period per song raw used on remove to not change intents
-    async def on_reaction_add(self, reaction, user): #TODO make people not in voice unable to vote for these/No reactions except ones in perms
+    # Used to ensure the user only picks one choice per vote period per song raw used on remove to not change intents
+    async def on_reaction_add(self, reaction,
+                              user):
+        #print(reaction.emoji)
+        settings = self.settings_map[user.guild.id]
+        reactions = settings.reactions
+
         if reaction.message.id in commands.voteskip.messagess_check and not user.bot:
-            userPerArea = str(user.id)+str(reaction.message.id)
-            if not userPerArea in commands.voteskip.vote_reactions:
+            userPerArea = str(user.id) + str(reaction.message.id)
+            if not userPerArea in commands.voteskip.vote_reactions and reaction.emoji in reactions:
                 commands.voteskip.vote_reactions[userPerArea] = reaction.emoji
             else:
                 await reaction.remove(user)
 
+
     async def on_raw_reaction_remove(self, payload):
-        #print(payload.member, "delete")
-        user = str(payload.user_id)+str(payload.message_id)
-        if user in commands.voteskip.vote_reactions:
-                del commands.voteskip.vote_reactions[user]
+        user = str(payload.user_id) + str(payload.message_id)
+
+        if user in commands.voteskip.vote_reactions and commands.voteskip.vote_reactions[user] == str(payload.emoji):
+            del commands.voteskip.vote_reactions[user]

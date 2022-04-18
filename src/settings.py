@@ -36,6 +36,8 @@ def save_settings(guild_id, guild_name):
 class Settings:
     def __init__(self):
         self.prefix = '!'
+        self.reactions = ['👍', '👎']
+        self.timer_reactions = 10
 
     @staticmethod
     def gen_default_settings(guild):
@@ -52,7 +54,9 @@ class Settings:
             "prefix": self.prefix,
             "voice_channel_id": self.voice_channel_id,
             "command_channel_id": self.command_channel_id,
-            "permission_mappings": {"roles": self.perm_map.role_map, "users": self.perm_map.user_map}
+            "permission_mappings": {"roles": self.perm_map.role_map, "users": self.perm_map.user_map},
+            "reactions": self.reactions,
+            "timer_reactions": self.timer_reactions
         }, indent=4)
 
     @staticmethod
@@ -63,4 +67,7 @@ class Settings:
         result.voice_channel_id = setting_dict['voice_channel_id']
         result.command_channel_id = setting_dict['command_channel_id']
         result.perm_map = permission_map.PermissionMap.from_dict(setting_dict["permission_mappings"])
+        result.reactions = setting_dict['reactions']
+        result.timer_reactions = setting_dict['timer_reactions']
+
         return result
