@@ -12,7 +12,7 @@ class Pause(Command):
             server.voice_client.pause()
         # if a song is already pause: print a message to the user letting them know
         elif server.voice_client.is_paused():
-            await command_event.message_event.channel.send("Song is currently paused. Use the \'Resume\' command to play.")
+            await command_event.message_event.channel.send("Song is currently paused. Use the \'Resume\' command to continue playing.")
         # If a song was never started the user will receive this message
         else:
             await command_event.message_event.channel.send("Unable to pause the song.")
