@@ -7,18 +7,19 @@ class Help(Command):
     async def run_command(self, command_event):
         await command_event.message_event.channel.send(
             "-------------------------------- Discord Music Bot Manual ---------------------------------\n\n"
-            "\t-\t HelloWorld [PL=0] : ((PREFIX)HelloWorld) -> Simple command that simply has the bot say \'Hello\' to users.\n\n"
-            "\t-\t SetPrefix [PL=5000] : ((PREFIX)SetPrefix PREFIX) -> This command changes the prefix to enter a command. Once "
-            "changed, to enter a command users must first enter the new prefix followed by their desired command.\n\n"
-            "\t-\t Play [PL=1000] : ((PREFIX)Play URL) -> This command has the bot join a server voice channel and play the user's "
-            "requested song via a URL to the song on Youtube.\n\n"
-            "\t-\t Queue [PL=1000] : ((PREFIX)Queue URL) -> This command takes the song specified by the user from the URL provided "
+            "\t-\t Hello [PL=0] : ((PREFIX)hello) -> Prints \'Hello\' {username}!\n\n"
+            "\t-\t Help [PL=0] : ((PREFIX)help) -> Displays this Help manual.\n\n"
+            "\t-\t Get Permissions [PL=0] : ((PREFIX)getperms) -> This command returns the permission level (PL).\n\n"
+            "\t-\t Play [PL=1000] : ((PREFIX)play [query]) -> Prompts bot to join a \n\n"
+            "\t-\t Pause [PL=1000] : ((PREFIX)pause) -> Pauses the current song playing.\n\n"
+            "\t-\t Resume [PL=1000] : ((PREFIX)resume) -> Resumes the paused song.\n\n"
+            "\t-\t Queue [PL=1000] : ((PREFIX)queue [query]) -> This command takes the song specified by the user from the URL provided "
             "and appends it to a list. When the current song playing finishes, the first song in the queue will play.\n\n"
-            "\t-\t Skip [PL=] : ((PREFIX)Skip) -> This command terminates the current song playing. If there is another song in "
-            "the queue it will begin playing, if not the bot will idle until the next command.\n\n"
-            "\t-\t Leave [PL=1000] : ((PREFIX)Leave) -> This command removes the bot from its the current voice channel, stopping "
+            "\t-\t Skip [PL=1000] : ((PREFIX)skip) -> This command terminates the current song playing. \n\n"
+            "\t-\t Leave [PL=1000] : ((PREFIX)leave) -> This command removes the bot from its the current voice channel, stopping "
             "it from playing.\n\n"
-            "\t-\t GetPerm [PL=0] : ((PREFIX)GetPerm) -> This command returns the permission level (PL). Permission levels vary based"
-            "on the role in the server and can be assigned to both users and the bot. Each command has a permission"
-            "level.\n\n"
-            "\t-\t Help [PL=0] : ((PREFIX)Help) -> Displays the manual.\n\n")
+            "\t-\t Set Prefix [PL=5000] : ((PREFIX)setprefix PREFIX) -> This command changes the prefix to enter a command. Once "
+            "changed, to enter a command users must first enter the new prefix followed by their desired command.\n\n"
+            "\t-\t Set Permissions [PL=5000] : ((PREFIX)setperm [role] [pl]) -> Changes the permisson levels of roles in the server.\n\n"
+        )
+
