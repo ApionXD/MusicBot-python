@@ -54,7 +54,11 @@ Note: The brackets in the command signify a mandatory parameter. The brackets fo
 !resume - Begins playing song from where it was paused [1000]\
 !setpermu [User] [permLevel] - Changes the permission level of the specified user [5000]\
 !setpermr [Role] [permLevel] - Changes the permission level of the specified role [5000]\
-!soundcloud [query] - The play command, but for Soundcloud instead of YouTube
+!soundcloud [query] - The play command, but for Soundcloud instead of YouTube [1000] \
+!voteskip <songName> - Sets up a vote for skipping the given song, or the song currently playing if no song is given \
+!setreactions [dontSkipReaction] [skipReactions] - Sets the reactions for !voteskip \
+!votetimer [time] - Sets the amount of time the !voteskip command listens fotr reactions \
+!showqueue - Shows the songs currently queued
 
 <br>
 Dependencies: \
@@ -68,11 +72,13 @@ we believe our bot does better than most, as we have a system that allows for us
 done by reactions, which we think is much more intuitive than other bots, which use commands to vote to skip songs.
 We also have a permissions based system that allows server administrators to play what they would like, regardless of what others
 want. These are not all of the features of our bot, but we believe this is what sets it apart from other music bots.
-###Division Of Work:
-  ####Mason: I did most of the base structure of the bot, including the permission system and the command structure as well as implementing the sources. I also implemented the structure for settings, and created the Dockerfile
-  ####Kunle: Created almost everything related to the playlist system, including the queue command, parts of the play command, the skip command, and the showqueue command. Also implemented almost everything to do with reaction based voting.
-  ####Kyle: The resume/pause command, the help command, a large chunk of the README, and parts of the setperm commands \ 
+
+### Division Of Work:
+  #### Mason: I did most of the base structure of the bot, including the permission system and the command structure as well as implementing the sources. I also implemented the structure for settings, and created the Dockerfile
+  #### Kunle: Created almost everything related to the playlist system, including the queue command, parts of the play command, the skip command, and the showqueue command. Also implemented almost everything to do with reaction based voting.
+  #### Kyle: The resume/pause command, the help command, a large chunk of the README, and parts of the setperm commands \ 
 These are rough descriptions, everyone kind of worked on everything. 
+
 ### Notes:
 When beginning this project, we anticipated much more difficulty in getting music data in a format that Discord can process. 
 This turned out to be quite easy, and it drastically lowered the complexity of the bot 
