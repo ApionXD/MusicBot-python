@@ -50,3 +50,28 @@ class YTSource(discord.FFmpegOpusAudio):
         if self.data['acodec'] == 'opus':
             self.opus = True
         return filename
+
+
+class SoundcloudSource(discord.FFmpegOpusAudio):
+    def __init__(self, query):
+        self.opus = False
+        self.ytdl = youtube_dl.YoutubeDL(YTDL_OPT)
+        self.url = self.ytdl.extract_info(f"scsearch:{query}", download=False)['entries'][0]['webpage_url']
+        stream_link = self.get_stream()
+        if self.opus:
+            print('Audio already opus encoded, not transcoding')
+            super().__init__(stream_link, codec='copy')
+        else:
+            super().__init__(stream_link)
+
+        # This method uses the normal link to a YT video to fetch the data about that video, mainly
+        # the actual link to the content.
+    def get_stream(self):
+        self.data = self.ytdl.extract_info(self.url, download=False)
+        filename = self.data['formats'][0]['url']
+        for x in self.data['formats']:
+            if x['ext'] == 'opus':
+                filename = x['url']
+                self.opus = True
+                break
+        return filename

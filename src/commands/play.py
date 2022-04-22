@@ -32,7 +32,7 @@ def play_next_song(server, command_channel_id, voice_channel_id):
         song_map[id].pop(0)
         text_channel = discord.utils.find(lambda m: m.id == command_channel_id, server.text_channels)
         global embed
-        embed = discord.Embed(title="Now Playing", url=source.data['uploader_url'])
+        embed = discord.Embed(title="Now Playing", url=source.data['webpage_url'])
         embed.set_image(url=source.data['thumbnails'][0]['url'])
         embed.set_author(name="Beedle")
         embed.set_footer(text="A reaction driven music bot!")
@@ -46,7 +46,7 @@ def play_next_song(server, command_channel_id, voice_channel_id):
             duration_str = f"{int(source.data['duration'] / 60)}:"
             if duration_str == "0:":
                 duration_str = ':'
-            seconds = source.data['duration'] % 60
+            seconds = int(source.data['duration'] % 60)
             if seconds < 10:
                 duration_str += f"0{seconds}"
             else:
