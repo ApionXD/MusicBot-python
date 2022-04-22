@@ -32,6 +32,11 @@ Note: The brackets in the command signify a mandatory parameter. The brackets fo
 !queue [query] - Adds the first YouTube search result for query to the back of the queue [500]\
 !setprefix [prefix] - Sets the prefix to invoke the bot to prefix (default !) [5000]\
 !skip - Skips the song currently playing [1000]\
+!help - Prints the help manual [0]\
+!pause - Stops the current song from playing [1000]\
+!resume - Begins playing song from where it was paused [1000]\
+!setpermu - Changes the permission level of the specified user [5000]\
+!setpermr - Chanes the permission level of the specified role [5000]\
 <br>
 Dependencies: \
 

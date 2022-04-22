@@ -22,5 +22,10 @@ class Help(Command):
             "changed, to enter a command users must first enter the new prefix followed by their desired command.\n\n"
             "\t-\t Set Role Permissions [PL=5000] : ((PREFIX)setpermr [role] [pl]) -> Changes the permisson levels of roles in the server.\n\n"
             "\t-\t Set User Permissions [PL=5000] : ((PREFIX)setpermu [user] [pl]) -> Changes the permisson levels of users in the server.\n\n"
+            "\t-\t Vote Skip [PL=0] : ((PREFIX)voteskip) -> Allows users to vote to skip the current song playing.\n\n"
+            "\t-\t Set Reactions [PL=5000] : ((PREFIX)setreactions) -> Allows reactions to vote skip to be set.\n\n"
+            "\t-\t Vote Timer [PL=5000] : ((PREFIX)votetimer) -> Sets a timer for how long the vote will take place. \n\n"
+            "\t-\t Show Queue [PL=0] : ((PREFIX)showqueue) -> Shows the songs currently in the queue.\n\n"
+            "\t-\t SoundCloud [PL=1000] : ((PREFIX)soundcloud) -> Plays song from SoundCloud.\n\n"
         )
 
