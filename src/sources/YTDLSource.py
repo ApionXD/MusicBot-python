@@ -64,8 +64,7 @@ class SoundcloudSource(discord.FFmpegOpusAudio):
         else:
             super().__init__(stream_link)
 
-        # This method uses the normal link to a YT video to fetch the data about that video, mainly
-        # the actual link to the content.
+
     def get_stream(self):
         self.data = self.ytdl.extract_info(self.url, download=False)
         filename = self.data['formats'][0]['url']
@@ -75,3 +74,4 @@ class SoundcloudSource(discord.FFmpegOpusAudio):
                 self.opus = True
                 break
         return filename
+me

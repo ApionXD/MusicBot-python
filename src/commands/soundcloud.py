@@ -9,7 +9,7 @@ class Soundcloud(Command):
         server = command_event.message_event.guild
         guild_id = server.id
         if (guild_id in song_map):
-            song_map[guild_id] = [(YTDLSource(" ".join(command_event.words[1:])))] + song_map[guild_id][1:]
+            song_map[guild_id] = [(YTDLSource.SoundcloudSource(" ".join(command_event.words[1:])))] + song_map[guild_id][1:]
         else:
             song_map[guild_id] = [YTDLSource.SoundcloudSource(" ".join(command_event.words[1:]))]
         if server.voice_client is None:
