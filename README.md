@@ -55,13 +55,13 @@ Note: The brackets in the command signify a mandatory parameter. The brackets fo
 !setpermu [User] [permLevel] - Changes the permission level of the specified user [5000]\
 !setpermr [Role] [permLevel] - Changes the permission level of the specified role [5000]\
 !soundcloud [query] - The play command, but for Soundcloud instead of YouTube [1000] \
-!voteskip <songName> - Sets up a vote for skipping the given song, or the song currently playing if no song is given \
-!setreactions [dontSkipReaction] [skipReactions] - Sets the reactions for !voteskip \
-!votetimer [time] - Sets the amount of time the !voteskip command listens fotr reactions \
-!showqueue - Shows the songs currently queued
+!voteskip <songName> - Sets up a vote for skipping the given song, or the song currently playing if no song is given [0]\
+!setreactions [dontSkipReaction] [skipReactions] - Sets the reactions for !voteskip [5000] \
+!votetimer [time] - Sets the amount of time the !voteskip command listens for reactions [5000] \
+!showqueue - Shows the songs currently queued [0]
 
 <br>
-Dependencies: \
+Dependencies: 
 
 - Python 3
 - ffmpeg

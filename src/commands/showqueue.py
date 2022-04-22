@@ -4,6 +4,7 @@ from commands.command import Command
 from commands.play import song_map
 
 class ShowQueue(Command):
+    perm_level = 0
     async def run_command(self, command_event):
         server = command_event.message_event.guild
         if (server.id in song_map and len(song_map[server.id])>0): #sees if there is anything in queue
