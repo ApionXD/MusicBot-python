@@ -20,6 +20,7 @@ class Help(Command):
             "it from playing.\n\n"
             "\t-\t Set Prefix [PL=5000] : ((PREFIX)setprefix PREFIX) -> This command changes the prefix to enter a command. Once "
             "changed, to enter a command users must first enter the new prefix followed by their desired command.\n\n"
-            "\t-\t Set Permissions [PL=5000] : ((PREFIX)setperm [role] [pl]) -> Changes the permisson levels of roles in the server.\n\n"
+            "\t-\t Set Role Permissions [PL=5000] : ((PREFIX)setpermr [role] [pl]) -> Changes the permisson levels of roles in the server.\n\n"
+            "\t-\t Set User Permissions [PL=5000] : ((PREFIX)setpermu [user] [pl]) -> Changes the permisson levels of users in the server.\n\n"
         )
 
