@@ -10,8 +10,8 @@ from commands import command_event
 
 # This is a class representing the bot, it inherits from the discord.Client class
 class PythonClient(discord.Client):
-    def __init__(self):
-        discord.Client.__init__(self)
+    def __init__(self, intents):
+        discord.Client.__init__(self, intents=intents)
         self.command_map = command_map.command_map
         self.settings_map = settings.settings_map
 

@@ -74,4 +74,3 @@ class SoundcloudSource(discord.FFmpegOpusAudio):
                 self.opus = True
                 break
         return filename
-me
